@@ -1,0 +1,109 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #daa000;
+  padding: 1rem 3rem;
+  border-bottom: 3px solid #DC143C;
+  color: white;
+  font-family: sans-serif;
+}
+
+.logo {
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  margin-left: auto;
+  gap: 85px;
+  font-weight: bold;
+  padding-left: 160px;
+}
+
+.navLinks a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navLinks a:hover {
+  color: #DC143C;
+}
+
+.logoButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0; /* Eliminamos padding para que el círculo sea perfecto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.logoButton:hover {
+  opacity: 0.8; /* Se vuelve un poquito transparente al pasar el mouse */
+  transform: scale(1.50);
+}
+
+.logoButton:active {
+  transform: scale(1.5); /* Se achica un poquito al hacer clic (efecto de presión) */
+}
+
+.logoImage{
+height: 70px; /* Ajustá el tamaño según necesites */
+    width: 70px;  /* ¡Importante! Mismo ancho y alto para un círculo perfecto */
+    border-radius: 50%; /* Esta es la magia que hace el círculo */
+    object-fit: cover;  /* Asegura que el león no se estire ni se deforme */
+    border: 0px solid #F1A10A;
+    padding: 5px;
+}
+
+/* El contenedor debe ser relative para que el menú sepa dónde "anclarse" */
+.dropdownContainer {
+  position: relative; 
+  list-style: none;
+  display: inline-block;
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px 0px;
+  font-family: inherit;
+  font-size: 20px;
+}
+
+.dropbtn:hover{
+  color: #DC143C;
+  opacity: 0.8;
+  transition: color 0.5s ease, background-color 0.6s ease;
+}
+
+/* El menú que flota "superficialmente" */
+.dropdownMenu {
+  position: absolute; /* Esto hace que flote y no afecte al navbar */
+  top: 100%;          /* Se coloca justo debajo del botón */
+  right: 0;           /* Se alinea al borde derecho del botón */
+  background-color: #1a1a1a; /* El negro de tu paleta */
+  border: 1px solid #DC143C; /* El carmesí de tu logo */
+  min-width: 180px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.6); /* Sombra para dar efecto de altura */
+  padding: 10px 0;
+  margin: 0;
+  list-style: none;
+  z-index: 9999;      /* Un número alto para que pase por encima de todo */
+}
+
+.dropdownMenu li a {
+  display: block;
+  padding: 12px 20px;
+  color: white;
+  text-decoration: none;
+}
+

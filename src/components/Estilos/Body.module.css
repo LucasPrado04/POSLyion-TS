@@ -1,0 +1,97 @@
+.mainLayout {
+    display: flex;
+    flex-direction: column; /* Apila Navbar arriba y el resto abajo */
+    height: 100vh; /* Ocupa toda la pantalla de Electron */
+    width: 100vw;
+}
+
+.appContent {
+    display: flex;
+    height: 100vh; /* Ocupa todo el alto de Electron */
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* SIDEBAR: No se toca */
+.sidebar {
+    width: 150px;
+    flex-shrink: 0; /* IMPRESCINDIBLE: evita que se achique */
+    background-color: #1a1a1a;
+    height: 100%;
+}
+
+.linkside{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.linkside a{
+    color: #fff;
+    text-decoration: none;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    transition: background 0.3s;
+}
+
+.linkside a:hover {
+    background-color: rgba(220, 20, 60, 0.1); /* Efecto al pasar el mouse */
+    color: #F1A10A;
+}
+
+.mainDisplay {
+    display: flex;
+    flex-direction: column; /* Apila los paneles uno arriba del otro */
+    height: 100%;           /* Ocupa todo el alto disponible */
+    background-color: #121212; /* El color oscuro que ya tenés */
+    padding: 15px;
+    gap: 10px;
+}
+
+.btn1{
+    background-color: crimson;
+}
+
+/* Paneles */
+
+
+/* SECCIÓN PRINCIPAL: Todo lo que sobra a la derecha */
+.seccionPrincipal {
+    flex: 1; /* Toma todo el espacio restante */
+    display: flex; /* Divide este espacio en Horizontal */
+    gap: 10px;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+}
+
+/* LOS PANELES INTERNOS */
+.columnaIzquierdaInterna {
+    flex: 2; /* Más ancho para productos/detalles */
+    display: flex;
+    flex-direction: column; /* Apila uno arriba de otro */
+    gap: 0px;
+}
+
+.panelProductos, .panelDetalles {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+/* PANEL LATERAL DERECHO: Se adapta al alto de sus hermanos de la izquierda */
+.txtPanelLateral{
+   flex: 1;
+}
+
+.panelLateral{
+    flex: 1;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #DC143C; /* El carmesí de tu logo */
+    padding: 87.5% 0%;
+    
+}
