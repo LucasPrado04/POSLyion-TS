@@ -1,8 +1,8 @@
 .navbar {
   display: flex;
   align-items: center;
-  background-color: #daa000;
-  padding: 1rem 3rem;
+  background-color: #f1b102;
+  padding: 1rem 1rem;
   border-bottom: 3px solid #DC143C;
   color: white;
   font-family: sans-serif;
@@ -45,7 +45,7 @@
 
 .logoButton:hover {
   opacity: 0.8; /* Se vuelve un poquito transparente al pasar el mouse */
-  transform: scale(1.50);
+  transform: scale(1.1);
 }
 
 .logoButton:active {
@@ -53,12 +53,12 @@
 }
 
 .logoImage{
-height: 70px; /* Ajustá el tamaño según necesites */
-    width: 70px;  /* ¡Importante! Mismo ancho y alto para un círculo perfecto */
-    border-radius: 50%; /* Esta es la magia que hace el círculo */
+height: 110px; /* Ajustá el tamaño según necesites */
+    width: 110px;  /* ¡Importante! Mismo ancho y alto para un círculo perfecto */
+    border-radius: 0%; /* Esta es la magia que hace el círculo */
     object-fit: cover;  /* Asegura que el león no se estire ni se deforme */
     border: 0px solid #F1A10A;
-    padding: 5px;
+    padding: 0px 5px 0px 0px;
 }
 
 /* El contenedor debe ser relative para que el menú sepa dónde "anclarse" */

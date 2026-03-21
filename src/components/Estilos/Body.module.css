@@ -1,97 +1,150 @@
+:global(#root){
+    height: 100vh;
+}
+
+.contenedorPadre {
+  display: flex;        
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Esto es vital */
+    background-color: #000;  
+    box-sizing: border-box;      
+}
+
 .mainLayout {
     display: flex;
-    flex-direction: column; /* Apila Navbar arriba y el resto abajo */
-    height: 100vh; /* Ocupa toda la pantalla de Electron */
-    width: 100vw;
+    flex-direction: column;
+}
+
+.mainContainer {
+    display: flex; 
+    flex: 1;
 }
 
 .appContent {
+    flex: 1; /* Esto empuja al footer */
     display: flex;
-    height: 100vh; /* Ocupa todo el alto de Electron */
-    width: 100vw;
+    flex-direction: row; /* Productos a la izquierda, Lateral a la derecha */
     overflow: hidden;
 }
 
-/* SIDEBAR: No se toca */
-.sidebar {
-    width: 150px;
-    flex-shrink: 0; /* IMPRESCINDIBLE: evita que se achique */
-    background-color: #1a1a1a;
-    height: 100%;
-}
-
-.linkside{
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.linkside a{
-    color: #fff;
-    text-decoration: none;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    transition: background 0.3s;
-}
-
-.linkside a:hover {
-    background-color: rgba(220, 20, 60, 0.1); /* Efecto al pasar el mouse */
-    color: #F1A10A;
-}
-
-.mainDisplay {
-    display: flex;
-    flex-direction: column; /* Apila los paneles uno arriba del otro */
-    height: 100%;           /* Ocupa todo el alto disponible */
-    background-color: #121212; /* El color oscuro que ya tenés */
-    padding: 15px;
-    gap: 10px;
-}
-
-.btn1{
-    background-color: crimson;
+.contentArea {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #000; 
 }
 
 /* Paneles */
 
-
-/* SECCIÓN PRINCIPAL: Todo lo que sobra a la derecha */
 .seccionPrincipal {
-    flex: 1; /* Toma todo el espacio restante */
-    display: flex; /* Divide este espacio en Horizontal */
-    gap: 10px;
-    padding: 10px;
-    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    overflow: hidden;
+}
+
+.columnaIzquierdaInterna {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    min-width: 300px; 
+    color: #fff;
+    gap: 5px;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.columnaIzquierdaInterna h2 {
+    align-items: center;
+    display: flex;
+    font-size: 24px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    padding-left: 10px;
+}
+
+/* Columna Derecha (Panel Lateral) */
+.txtPanelLateral {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    min-width: 200px;
     color: #fff;
 }
 
-/* LOS PANELES INTERNOS */
-.columnaIzquierdaInterna {
-    flex: 2; /* Más ancho para productos/detalles */
+.txtPanelLateral h2 {
+    align-items: center;
     display: flex;
-    flex-direction: column; /* Apila uno arriba de otro */
-    gap: 0px;
+    justify-content: center;
+    font-size: 24px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.panelProductos, .panelDetalles {
-    flex: 1;
-    background-color: #ffffff;
-    border-radius: 8px;
-    border: 1px solid #333;
-}
-
-/* PANEL LATERAL DERECHO: Se adapta al alto de sus hermanos de la izquierda */
-.txtPanelLateral{
-   flex: 1;
-}
-
-.panelLateral{
-    flex: 1;
+/* Los Paneles Blancos */
+.panelProductos{
+    flex: 1; 
     background-color: #fff;
     border-radius: 8px;
-    border: 1px solid #DC143C; /* El carmesí de tu logo */
-    padding: 87.5% 0%;
+    overflow: auto; 
+}
+
+.panelLateral {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 5px;
+    margin: 0 5px 5px 0;
+}
+
+.panelFooter {
+    background-color: #F1A10A;
+    height: 100px; 
+    flex-shrink: 1; /* Prohibido achicarse */
+    z-index: 10;    /* Lo pone por encima de cualquier otro div */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.panelFooter h1{
+    font-size: 50px;
+    padding: 0px 45px 0 0;
+    margin: 0;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.contenedorColumnas {
+    display: flex;
+    flex: 1; 
+    gap: 5px;
+    padding: 5px;
+    overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 800px) {
+    .seccionPrincipal {
+        flex-direction: column; 
+        overflow-y: auto; 
+    }
     
+    .columnaIzquierdaInterna, .txtPanelLateral {
+        width: 100%;
+        flex: none;
+        height: 400px; 
+    }
 }

@@ -13,10 +13,10 @@
     "lint": "eslint --ext .ts,.tsx ."
   },
   "keywords": [],
-  "author": "uks",
+  "author": "uks&bitr",
   "license": "MIT",
   "devDependencies": {
-    "@electron-forge/cli": "^7.11.1",
+    "@electron-forge/cli": "^7.6.1",
     "@electron-forge/maker-deb": "^7.11.1",
     "@electron-forge/maker-rpm": "^7.11.1",
     "@electron-forge/maker-squirrel": "^7.11.1",
@@ -30,19 +30,25 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "autoprefixer": "^10.4.27",
+    "babel-runtime": "^6.26.0",
     "css-loader": "^6.11.0",
     "electron": "40.6.1",
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.32.0",
     "fork-ts-checker-webpack-plugin": "^7.3.0",
     "node-loader": "^2.1.0",
+    "postcss": "^8.5.8",
     "style-loader": "^3.3.4",
+    "tailwindcss": "^4.2.1",
     "ts-loader": "^9.5.4",
     "typescript": "~4.5.4"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
+    "lucide-react": "^0.577.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.1"
   }
 }

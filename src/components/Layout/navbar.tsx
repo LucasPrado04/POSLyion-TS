@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
       <ul className={styles.navLinks}>
         <li className={styles.dropdownContainer}>
           <button className={styles.dropbtn} onClick={toggleDropdown}>
-            Configuración ▼
+            (NOMBREACA) ▼
           </button>
           
           {isDropdownOpen && (
