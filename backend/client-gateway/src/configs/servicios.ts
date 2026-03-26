@@ -1,0 +1,1 @@
+export const USUARIO_SERVICE = 'USUARIO_SERVICE';

@@ -1,18 +1,15 @@
-import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PrismaService } from 'src/prisma.service';
 import { PaginacionDto } from 'src/common';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
-export class UsuariosService implements OnModuleInit {
+export class UsuariosService {
   private readonly logger = new Logger('Usuarios-MS');
 
   constructor(private prisma: PrismaService) { }
-  onModuleInit() {
-    this.prisma.$connect();
-    this.logger.log('Base de datos inicializada');
-  }
 
   create(createUsuarioDto: CreateUsuarioDto) {
     return this.prisma.usuario.create({
@@ -56,7 +53,10 @@ export class UsuariosService implements OnModuleInit {
     });
 
     if (!user) {
-      throw new NotFoundException(`Usuario con el ID #${id} no encontrado`);
+      throw new RpcException({
+        status: HttpStatus.NOT_FOUND,
+        message: `Usuario con el ID #${id} no encontrado`,
+      });
     }
 
     return user;
