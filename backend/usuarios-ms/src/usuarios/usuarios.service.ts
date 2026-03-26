@@ -63,11 +63,14 @@ export class UsuariosService implements OnModuleInit {
   }
 
   update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
+
+    const {id: __, ...data} = updateUsuarioDto;
+
     this.findOne(id);
 
     return this.prisma.usuario.update({
       where: {id},
-      data: updateUsuarioDto,
+      data
     })
   }
 

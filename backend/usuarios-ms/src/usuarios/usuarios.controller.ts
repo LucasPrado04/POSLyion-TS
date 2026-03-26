@@ -1,35 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, ParseIntPipe } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PaginacionDto } from 'src/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
+  @MessagePattern({cmd: 'crear_usuario'})
+  create(@Payload() createUsuarioDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuarioDto);
   }
 
-  @Get()
-  findAll(@Query() paginacionDto: PaginacionDto) {
+  @MessagePattern({cmd: 'buscar_todos_usuarios'})
+  findAll(@Payload() paginacionDto: PaginacionDto) {
     return this.usuariosService.findAll(paginacionDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usuariosService.findOne(+id);
+  @MessagePattern({cmd: 'buscar_un_usuario'})
+  findOne(@Payload('id', ParseIntPipe) id: number) {
+    return this.usuariosService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
+  @MessagePattern({cmd: 'actualizar_usuario'})
+  update(@Payload() updateUsuarioDto: UpdateUsuarioDto) {
+    return this.usuariosService.update(updateUsuarioDto.id, updateUsuarioDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usuariosService.remove(+id);
+  @MessagePattern({cmd: 'eliminar_usuario'})
+  remove(@Payload('id', ParseIntPipe) id: number) {
+    return this.usuariosService.remove(id);
   }
 }
