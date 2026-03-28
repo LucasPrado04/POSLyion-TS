@@ -62,11 +62,11 @@ export class UsuariosService {
     return user;
   }
 
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
+  async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
 
     const {id: __, ...data} = updateUsuarioDto;
 
-    this.findOne(id);
+    await this.findOne(id);
 
     return this.prisma.usuario.update({
       where: {id},
