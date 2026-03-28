@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Inject, ParseIntPipe } from '@nestjs/common';
 import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
-import { UpdateComprasCabeceraDto } from './dto/update-compras-cabecera.dto';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { COMPRAS_CABECERA_SERVICE } from 'src/configs';
 import { firstValueFrom } from 'rxjs';
