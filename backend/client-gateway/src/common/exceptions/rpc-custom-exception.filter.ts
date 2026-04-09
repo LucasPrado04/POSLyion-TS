@@ -14,8 +14,10 @@ export class RpcCustomExceptionFilter implements ExceptionFilter {
       'status' in rpcError && 
       'message' in rpcError
     ) {
-      const status = rpcError.status;
-      return response.status(status).json(rpcError);
+      if (typeof rpcError.status === 'number') {
+        const status = rpcError.status;
+        return response.status(status).json(rpcError);
+      }
     }
 
     response.status(400).json({

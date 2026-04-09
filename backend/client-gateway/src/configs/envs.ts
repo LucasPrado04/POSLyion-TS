@@ -7,6 +7,8 @@ interface EnvVars {
     MICROSERVICIO_USUARIO_PORT: number;
     MICROSERVICIO_PRODUCTO_HOST: string;
     MICROSERVICIO_PRODUCTO_PORT: number;
+    MICROSERVICIO_COMPRAS_CABECERA_HOST: string;
+    MICROSERVICIO_COMPRAS_CABECERA_PORT: number;
 }
 
 const envSchema = joi.object({
@@ -15,6 +17,8 @@ const envSchema = joi.object({
     MICROSERVICIO_USUARIO_PORT: joi.number().required(),
     MICROSERVICIO_PRODUCTO_HOST: joi.string().required(),
     MICROSERVICIO_PRODUCTO_PORT: joi.number().required(),
+    MICROSERVICIO_COMPRAS_CABECERA_HOST: joi.string().required(),
+    MICROSERVICIO_COMPRAS_CABECERA_PORT: joi.number().required(),
 })
 .unknown(true)
 
@@ -32,4 +36,6 @@ export const envs = {
     microservicioUsuarioPort: envVars.MICROSERVICIO_USUARIO_PORT,
     microservicioProductoHost: envVars.MICROSERVICIO_PRODUCTO_HOST,
     microservicioProductoPort: envVars.MICROSERVICIO_PRODUCTO_PORT,
+    microservicioComprasCabeceraHost: envVars.MICROSERVICIO_COMPRAS_CABECERA_HOST,
+    microservicioComprasCabeceraPort: envVars.MICROSERVICIO_COMPRAS_CABECERA_PORT,
 }
