@@ -1,7 +1,7 @@
-import { Controller, NotImplementedException, ParseIntPipe } from '@nestjs/common';
+import { Controller, NotImplementedException, ParseIntPipe, ParseUUIDPipe } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ComprasCabeceraService } from './compras-cabecera.service';
-import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
+import { CreateComprasCabeceraDto, ComprasPaginacionDto, CambiarEstadoCompraDto } from './dto';
 
 @Controller()
 export class ComprasCabeceraController {
@@ -13,17 +13,17 @@ export class ComprasCabeceraController {
   }
 
   @MessagePattern({cmd: 'buscar_todas_compras_cabecera'})
-  findAll() {
-    return this.comprasCabeceraService.findAll();
+  findAll(@Payload() comprasPaginacionDto: ComprasPaginacionDto) {
+    return this.comprasCabeceraService.findAll(comprasPaginacionDto);
   }
 
   @MessagePattern({cmd: 'buscar_compras_cabecera'})
-  findOne(@Payload('id', ParseIntPipe) id: number) {
+  findOne(@Payload('id', ParseUUIDPipe) id: string) {
     return this.comprasCabeceraService.findOne(id);
   }
 
   @MessagePattern({cmd: 'cambiar_estado_compras_cabecera'})
-  changeOrderStatus() {
-    throw new NotImplementedException();
+  changeOrderStatus(@Payload() cambiarEstadoCompraDto: CambiarEstadoCompraDto) {
+    return this.comprasCabeceraService.changeStatus(cambiarEstadoCompraDto);
   }
 }

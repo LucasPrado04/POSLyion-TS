@@ -16,5 +16,5 @@ export class CreateComprasCabeceraDto {
     estado: EstadoCompra = EstadoCompra.PENDIENTE;
     @IsOptional()
     @IsBoolean()
-    pagadoEl: boolean = false;
+    pagado: boolean = false;
 }

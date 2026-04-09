@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Inject, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Inject, ParseUUIDPipe, Query } from '@nestjs/common';
 import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { COMPRAS_CABECERA_SERVICE } from 'src/configs';
 import { firstValueFrom } from 'rxjs';
+import { ComprasPaginacionDto, EstadoDto } from './dto';
+import { PaginacionDto } from '../common/dto/paginacion.dto';
 
 @Controller('compras-cabecera')
 export class ComprasCabeceraController {
@@ -26,12 +28,12 @@ export class ComprasCabeceraController {
   }
 
   @Get()
-  async findAll() {
+  async findAll(@Query() comprasPaginacionDto: ComprasPaginacionDto) {
     try {
       const result = await firstValueFrom(
         this.comprasCabeceraService.send(
           {cmd: 'buscar_todas_compras_cabecera'},
-          { }
+          comprasPaginacionDto,
         )
       );
       return result;
@@ -40,10 +42,31 @@ export class ComprasCabeceraController {
     }
   }
 
-  @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  @Get(':estado')
+  async findAllByStatus(
+    @Param() estadoDto: EstadoDto,
+    @Query() paginacionDto: PaginacionDto,
+  ) {
     try {
-      const result = firstValueFrom(
+      const result = await firstValueFrom(
+        this.comprasCabeceraService.send(
+          {cmd: 'buscar_todas_compras_cabecera'},
+          {
+            ...paginacionDto,
+            estado: estadoDto.estado,
+          },
+        )
+      );
+      return result;
+    } catch (error) {
+      throw new RpcException(error);
+    }
+  }
+
+  @Get('id/:id')
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    try {
+      const result = await firstValueFrom(
         this.comprasCabeceraService.send(
           {cmd: 'buscar_compras_cabecera'},
           {id},
@@ -56,12 +79,15 @@ export class ComprasCabeceraController {
   }
 
   @Patch(':id')
-  async changeOrderStatus(@Param('id', ParseIntPipe) id: number) {
+  async changeOrderStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() estadoDto: EstadoDto,
+  ) {
     try {
       const result = await firstValueFrom(
         this.comprasCabeceraService.send(
           {cmd: 'cambiar_estado_compras_cabecera'},
-          {id},
+          {id, estado: estadoDto.estado},
         )
       );
       return result;
