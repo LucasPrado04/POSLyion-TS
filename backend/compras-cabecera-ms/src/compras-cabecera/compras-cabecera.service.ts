@@ -1,22 +1,39 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
 import { PrismaService } from 'src/prisma.service';
-import { RpcException } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { CambiarEstadoCompraDto, ComprasPaginacionDto } from './dto';
+import { PRODUCTO_SERVICE } from 'src/config';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ComprasCabeceraService {
 
   private readonly logger = new Logger('Compras-Cabecera-MS');
 
-  constructor(private prisma: PrismaService) {
+  constructor(
+    private prisma: PrismaService,
+    @Inject(PRODUCTO_SERVICE) private readonly productoClient: ClientProxy,
+  ) {
     this.logger.log('Servicio de Compras-Cabecera iniciado');
   }
 
-  create(createComprasCabeceraDto: CreateComprasCabeceraDto) {
-    return {
-      service: 'Microservicio de Compras',
-      createComprasCabeceraDto,
+  async create(createComprasCabeceraDto: CreateComprasCabeceraDto) {
+
+    // Test con un ID que no existe (debería lanzar el RpcException)
+    const ids = [1, 222];
+
+    try {
+      const result = await firstValueFrom(this.productoClient.send(
+        { cmd: 'validar_productos' },
+        ids,
+      ));
+      return result;
+    } catch (error) {
+      throw new RpcException({
+        message: 'Algunos productos no existen en la base de datos',
+        status: HttpStatus.BAD_REQUEST,
+      })
     }
     // return this.prisma.compraCabecera.create({
     //   data: createComprasCabeceraDto,
@@ -24,7 +41,7 @@ export class ComprasCabeceraService {
   }
 
   async findAll(comprasPaginacionDto: ComprasPaginacionDto) {
-    const {pagina, limite, estado} = comprasPaginacionDto;
+    const { pagina, limite, estado } = comprasPaginacionDto;
 
     const totalCompras = await this.prisma.compraCabecera.count({
       where: {
@@ -54,7 +71,7 @@ export class ComprasCabeceraService {
       where: { id },
     });
 
-    if(!compraCabecera) {
+    if (!compraCabecera) {
       throw new RpcException({
         status: HttpStatus.NOT_FOUND,
         message: `Compra con el id #${id} no encontrada`,
@@ -69,7 +86,7 @@ export class ComprasCabeceraService {
 
     const compra = await this.findOne(id);
 
-    if(estado === compra.estado) {
+    if (estado === compra.estado) {
       return compra;
     }
 
