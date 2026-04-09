@@ -14,9 +14,13 @@ export class ComprasCabeceraService {
   }
 
   create(createComprasCabeceraDto: CreateComprasCabeceraDto) {
-    return this.prisma.compraCabecera.create({
-      data: createComprasCabeceraDto,
-    });
+    return {
+      service: 'Microservicio de Compras',
+      createComprasCabeceraDto,
+    }
+    // return this.prisma.compraCabecera.create({
+    //   data: createComprasCabeceraDto,
+    // });
   }
 
   async findAll(comprasPaginacionDto: ComprasPaginacionDto) {
