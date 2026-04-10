@@ -1,4 +1,4 @@
-import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, Logger, PreconditionFailedException } from '@nestjs/common';
 import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
 import { PrismaService } from 'src/prisma.service';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
@@ -20,7 +20,6 @@ export class ComprasCabeceraService {
 
   async create(createComprasCabeceraDto: CreateComprasCabeceraDto) {
     try {
-
       // Confirmar que los productos con los IDs enviados existen
       const idProductos = createComprasCabeceraDto.items.map(item => item.idProducto)
       const productos: any[] = await firstValueFrom(this.productoClient.send(
@@ -42,18 +41,18 @@ export class ComprasCabeceraService {
       }, 0)
 
       // Crear una transacción de base de datos
-      await this.prisma.compraCabecera.create({
+      const compra = await this.prisma.compraCabecera.create({
         data: {
           montoTotal,
           totalProductos,
           ArticuloCompra: {
             createMany: {
               data: createComprasCabeceraDto.items.map((articuloCompra) => ({
-                idProducto: articuloCompra.idProducto,
-                cantidad: articuloCompra.cantidad,
                 precio: productos.find(
                   (producto) => producto.id === articuloCompra.idProducto
                 ).precio,
+                idProducto: articuloCompra.idProducto,
+                cantidad: articuloCompra.cantidad,
               })),
             },
           },
@@ -61,22 +60,30 @@ export class ComprasCabeceraService {
         include: {
           ArticuloCompra: {
             select: {
-              precio: true,
+              idProducto: true,
               cantidad: true,
-              idproducto: true,
-            }
-          }
-        }
+              precio: true,
+            },
+          },
+        },
       });
+
+      return {
+        ...compra,
+        ArticuloCompra: compra.ArticuloCompra.map((articuloCompra) => ({
+          ...articuloCompra,
+          nombre: productos.find(
+            (producto) => producto.id === articuloCompra.idProducto
+          ).nombre,
+        })),
+      }
     } catch (error) {
       throw new RpcException({
         message: 'Algunos productos no existen en la base de datos',
         status: HttpStatus.BAD_REQUEST,
       });
     }
-    // return this.prisma.compraCabecera.create({
-    //   data: createComprasCabeceraDto,
-    // });
+
   }
 
   async findAll(comprasPaginacionDto: ComprasPaginacionDto) {
@@ -108,6 +115,15 @@ export class ComprasCabeceraService {
   async findOne(id: string) {
     const compraCabecera = await this.prisma.compraCabecera.findFirst({
       where: { id },
+      include: {
+        ArticuloCompra: {
+          select: {
+            idProducto: true,
+            precio: true,
+            cantidad: true,
+          }
+        }
+      }
     });
 
     if (!compraCabecera) {
@@ -117,7 +133,24 @@ export class ComprasCabeceraService {
       });
     }
 
-    return compraCabecera;
+    const idsProductos = compraCabecera.ArticuloCompra.map(
+      (articuloCompra) => articuloCompra.idProducto
+    );
+
+    const productos: any[] = await firstValueFrom(this.productoClient.send(
+      { cmd: 'validar_productos' },
+      idsProductos,
+    ))
+
+    return {
+      ...compraCabecera,
+      ArticuloCompra: compraCabecera.ArticuloCompra.map((articuloCompra) => ({
+        ...articuloCompra,
+        nombre: productos.find(
+          (producto) => producto.id === articuloCompra.idProducto
+        ).nombre,
+      })),
+    };
   }
 
   async changeStatus(cambiarEstadoCompraDto: CambiarEstadoCompraDto) {
@@ -125,9 +158,9 @@ export class ComprasCabeceraService {
 
     const compra = await this.findOne(id);
 
-    if (estado === compra.estado) {
-      return compra;
-    }
+    // if (estado === compra.estado) {
+    //   return compra;
+    // }
 
     return this.prisma.compraCabecera.update({
       where: { id },
