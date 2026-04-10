@@ -23,7 +23,7 @@ model CompraCabecera {
   id             String           @id @default(uuid())
   montoTotal     Float
   totalProductos Int
-  estado         EstadoCompra     @default(PENDIENTE)
+  estado         EstadoCompra?     @default(PENDIENTE)
   pagado         Boolean          @default(false)
   pagadoEl       DateTime?
   createdAt      DateTime         @default(now())

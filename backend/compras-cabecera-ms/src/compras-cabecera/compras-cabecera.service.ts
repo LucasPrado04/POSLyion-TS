@@ -19,21 +19,60 @@ export class ComprasCabeceraService {
   }
 
   async create(createComprasCabeceraDto: CreateComprasCabeceraDto) {
-
-    // Test con un ID que no existe (debería lanzar el RpcException)
-    const ids = [1, 222];
-
     try {
-      const result = await firstValueFrom(this.productoClient.send(
+
+      // Confirmar que los productos con los IDs enviados existen
+      const idProductos = createComprasCabeceraDto.items.map(item => item.idProducto)
+      const productos: any[] = await firstValueFrom(this.productoClient.send(
         { cmd: 'validar_productos' },
-        ids,
+        idProductos,
       ));
-      return result;
+
+      // Calcular el monto total de la compra
+      const montoTotal = createComprasCabeceraDto.items.reduce((acumulacion, articuloCompra) => {
+        const precio = productos.find(
+          (producto) => producto.id === articuloCompra.idProducto,
+        ).precio;
+        return acumulacion + (precio * articuloCompra.cantidad);
+      }, 0);
+
+      // Calcular la cantida de items de la compra
+      const totalProductos = createComprasCabeceraDto.items.reduce((acumulacion, articuloCompra) => {
+        return acumulacion + articuloCompra.cantidad;
+      }, 0)
+
+      // Crear una transacción de base de datos
+      await this.prisma.compraCabecera.create({
+        data: {
+          montoTotal,
+          totalProductos,
+          ArticuloCompra: {
+            createMany: {
+              data: createComprasCabeceraDto.items.map((articuloCompra) => ({
+                idProducto: articuloCompra.idProducto,
+                cantidad: articuloCompra.cantidad,
+                precio: productos.find(
+                  (producto) => producto.id === articuloCompra.idProducto
+                ).precio,
+              })),
+            },
+          },
+        },
+        include: {
+          ArticuloCompra: {
+            select: {
+              precio: true,
+              cantidad: true,
+              idproducto: true,
+            }
+          }
+        }
+      });
     } catch (error) {
       throw new RpcException({
         message: 'Algunos productos no existen en la base de datos',
         status: HttpStatus.BAD_REQUEST,
-      })
+      });
     }
     // return this.prisma.compraCabecera.create({
     //   data: createComprasCabeceraDto,
