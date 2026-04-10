@@ -1,19 +1,11 @@
-import { IsBoolean, IsEnum, IsNumber, IsOptional, IsPositive } from "class-validator"
-import { EstadoCompra, ListaEstadosCompra } from "../enums";
+import { ArrayMinSize, IsArray, ValidateNested } from "class-validator"
+import { ArticuloCompraDto } from './articulo-compra.dto';
+import { Type } from "class-transformer";
 
 export class CreateComprasCabeceraDto {
-    @IsNumber()
-    @IsPositive()
-    montoTotal: number;
-    @IsNumber()
-    @IsPositive()
-    totalProductos: number;
-    @IsEnum(ListaEstadosCompra, {
-        message: `Los posibles valores para el estado de una compra son ${ListaEstadosCompra}`
-    })
-    @IsOptional()
-    estado: EstadoCompra = EstadoCompra.PENDIENTE;
-    @IsOptional()
-    @IsBoolean()
-    pagado: boolean = false;
+    @IsArray()
+    @ArrayMinSize(1)
+    @ValidateNested({ each: true })
+    @Type(() => ArticuloCompraDto)
+    items: ArticuloCompraDto[];
 }

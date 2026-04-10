@@ -4,7 +4,6 @@ import { UpdateProductoDto } from './dto/update-producto.dto';
 import { PrismaService } from 'src/prisma.service';
 import { PaginacionDto } from 'src/common';
 import { RpcException } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ProductosService {
@@ -66,7 +65,7 @@ export class ProductosService {
     
     await this.findOne(id);
 
-    return this.prisma.producto.update({
+    return await this.prisma.producto.update({
       where: {id},
       data
     })
@@ -75,7 +74,7 @@ export class ProductosService {
   async remove(id: number) {
     await this.findOne(id);
 
-    const producto =this.prisma.producto.update({
+    const producto = await this.prisma.producto.update({
       where: {id},
       data: {
         estado: false,
@@ -83,5 +82,26 @@ export class ProductosService {
     });
 
     return producto;
+  }
+
+  async validateProducts(ids: number[]) {
+    ids = Array.from(new Set(ids)); // Eliminar ids duplicados
+
+    const productos = await this.prisma.producto.findMany({
+      where: {
+        id: {
+          in: ids
+        }
+      }
+    });
+
+    if (productos.length !== ids.length) {
+      throw new RpcException({
+        message: 'Algunos productos no existen en la base de datos',
+        status: HttpStatus.BAD_REQUEST,
+      }); 
+    }
+
+    return productos;
   }
 }

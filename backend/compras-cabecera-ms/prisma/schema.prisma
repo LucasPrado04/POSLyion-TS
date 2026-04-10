@@ -4,8 +4,8 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -20,12 +20,22 @@ enum EstadoCompra {
 }
 
 model CompraCabecera {
-  id String @id @default(uuid())
-  montoTotal Float
+  id             String           @id @default(uuid())
+  montoTotal     Float
   totalProductos Int
-  estado EstadoCompra
-  pagado Boolean @default(false)
-  pagadoEl DateTime? 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  estado         EstadoCompra?     @default(PENDIENTE)
+  pagado         Boolean          @default(false)
+  pagadoEl       DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  ArticuloCompra ArticuloCompra[]
+}
+
+model ArticuloCompra {
+  id               String          @id @default(uuid())
+  idProducto       Int
+  cantidad         Int
+  precio           Float
+  compraCabecera   CompraCabecera? @relation(fields: [compraCabeceraId], references: [id])
+  compraCabeceraId String?
 }
