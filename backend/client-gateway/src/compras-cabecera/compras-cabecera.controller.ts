@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Inject, ParseUUIDPipe, Query } from '@nestjs/common';
 import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
-import { COMPRAS_CABECERA_SERVICE } from 'src/configs';
+import { NATS_SERVICE } from 'src/configs';
 import { firstValueFrom } from 'rxjs';
 import { ComprasPaginacionDto, EstadoDto } from './dto';
 import { PaginacionDto } from '../common/dto/paginacion.dto';
@@ -9,14 +9,14 @@ import { PaginacionDto } from '../common/dto/paginacion.dto';
 @Controller('compras-cabecera')
 export class ComprasCabeceraController {
   constructor(
-    @Inject(COMPRAS_CABECERA_SERVICE) private readonly comprasCabeceraService: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly client: ClientProxy,
   ) {}
 
   @Post()
   async create(@Body() createComprasCabeceraDto: CreateComprasCabeceraDto) {
     try {
       const result = await firstValueFrom(
-        this.comprasCabeceraService.send(
+        this.client.send(
           {cmd: 'crear_compra_cabecera'},
           createComprasCabeceraDto, 
         )
@@ -31,7 +31,7 @@ export class ComprasCabeceraController {
   async findAll(@Query() comprasPaginacionDto: ComprasPaginacionDto) {
     try {
       const result = await firstValueFrom(
-        this.comprasCabeceraService.send(
+        this.client.send(
           {cmd: 'buscar_todas_compras_cabecera'},
           comprasPaginacionDto,
         )
@@ -49,7 +49,7 @@ export class ComprasCabeceraController {
   ) {
     try {
       const result = await firstValueFrom(
-        this.comprasCabeceraService.send(
+        this.client.send(
           {cmd: 'buscar_todas_compras_cabecera'},
           {
             ...paginacionDto,
@@ -67,7 +67,7 @@ export class ComprasCabeceraController {
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     try {
       const result = await firstValueFrom(
-        this.comprasCabeceraService.send(
+        this.client.send(
           {cmd: 'buscar_compras_cabecera'},
           {id},
         )
@@ -85,7 +85,7 @@ export class ComprasCabeceraController {
   ) {
     try {
       const result = await firstValueFrom(
-        this.comprasCabeceraService.send(
+        this.client.send(
           {cmd: 'cambiar_estado_compras_cabecera'},
           {id, estado: estadoDto.estado},
         )

@@ -2,21 +2,21 @@ import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { PaginacionDto } from 'src/common';
-import { USUARIO_SERVICE } from 'src/configs';
 import { CreateUsuarioDto } from './dto-usuarios/create-usuario-dto';
 import { UpdateUsuarioDto } from './dto-usuarios/update-usuario-dto';
+import { NATS_SERVICE } from 'src/configs';
 
 @Controller('usuarios')
 export class UsuariosController {
   constructor(
-    @Inject(USUARIO_SERVICE) private readonly usuarioClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly client: ClientProxy,
   ) {}
 
   @Post()
   async createUsuario(@Body() createUsuarioDto: CreateUsuarioDto) {
     try {
       const result = await firstValueFrom(
-        this.usuarioClient.send(
+        this.client.send(
           {cmd: 'crear_usuario'},
           createUsuarioDto,
         )
@@ -31,7 +31,7 @@ export class UsuariosController {
   async findAllUsuarios(@Query() paginacionDto: PaginacionDto) {
     try {
       const result = await firstValueFrom(
-        this.usuarioClient.send({cmd: 'buscar_todos_usuarios'}, paginacionDto)
+        this.client.send({cmd: 'buscar_todos_usuarios'}, paginacionDto)
       );
       return result;
     } catch (error) {
@@ -43,7 +43,7 @@ export class UsuariosController {
   async findOneUsuario(@Param('id') id: string) {
     try {
       const result = await firstValueFrom(
-        this.usuarioClient.send(
+        this.client.send(
           {cmd: 'buscar_un_usuario'},
           {id}
         )
@@ -60,7 +60,7 @@ export class UsuariosController {
     @Body() updateUsuarioDto: UpdateUsuarioDto) {
     try {
       const result = await firstValueFrom(
-        this.usuarioClient.send(
+        this.client.send(
           {cmd: 'actualizar_usuario'},
           {
             id,
@@ -78,7 +78,7 @@ export class UsuariosController {
   async deleteUsuario(@Param('id') id: string) {
     try {
       const result = await firstValueFrom(
-        this.usuarioClient.send(
+        this.client.send(
           {cmd: 'eliminar_usuario'},
           {id},
         )

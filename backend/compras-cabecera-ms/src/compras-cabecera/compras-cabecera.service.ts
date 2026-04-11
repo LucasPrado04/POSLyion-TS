@@ -3,7 +3,7 @@ import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
 import { PrismaService } from 'src/prisma.service';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { CambiarEstadoCompraDto, ComprasPaginacionDto } from './dto';
-import { PRODUCTO_SERVICE } from 'src/config';
+import { NATS_SERVICE } from 'src/config';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class ComprasCabeceraService {
 
   constructor(
     private prisma: PrismaService,
-    @Inject(PRODUCTO_SERVICE) private readonly productoClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly client: ClientProxy,
   ) {
     this.logger.log('Servicio de Compras-Cabecera iniciado');
   }
@@ -22,7 +22,7 @@ export class ComprasCabeceraService {
     try {
       // Confirmar que los productos con los IDs enviados existen
       const idProductos = createComprasCabeceraDto.items.map(item => item.idProducto)
-      const productos: any[] = await firstValueFrom(this.productoClient.send(
+      const productos: any[] = await firstValueFrom(this.client.send(
         { cmd: 'validar_productos' },
         idProductos,
       ));
@@ -137,7 +137,7 @@ export class ComprasCabeceraService {
       (articuloCompra) => articuloCompra.idProducto
     );
 
-    const productos: any[] = await firstValueFrom(this.productoClient.send(
+    const productos: any[] = await firstValueFrom(this.client.send(
       { cmd: 'validar_productos' },
       idsProductos,
     ))
@@ -158,9 +158,9 @@ export class ComprasCabeceraService {
 
     const compra = await this.findOne(id);
 
-    // if (estado === compra.estado) {
-    //   return compra;
-    // }
+    if (estado === compra.estado) {
+      return compra;
+    }
 
     return this.prisma.compraCabecera.update({
       where: { id },
