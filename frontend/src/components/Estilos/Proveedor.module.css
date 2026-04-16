@@ -1,0 +1,143 @@
+.appContent {
+    display: flex;
+    /* Restamos la altura estimada de tu Navbar (ej: 60px) */
+    height: calc(100vh - 60px); 
+    width: 100%;
+    overflow: hidden;
+}
+
+.seccionPrincipal {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Esto centra a todos los hijos (título, buscador y panel) */
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #000; /* Para que el fondo sea negro como en tu captura */
+}
+
+.gestionStock{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 95%;
+    max-width: 1400px;
+    gap: 10px;
+}
+
+.txth2 {
+    width: 100%;          
+    display: flex;         
+    justify-content: center; 
+    align-items: center;    
+    background-color: #3be97e65; 
+    padding: 15px 0;     
+    margin-bottom: 10px;   
+}
+
+.txth2 h2 {
+    margin: 0;             
+    color: #9cf1e3;         
+    font-family: 'Bebas Neue', sans-serif; 
+    letter-spacing: 2px;  
+}
+
+.productos {
+    display: flex;
+    justify-content: center;
+    background-color: #f9f9f8;
+    width: 80vw; 
+    height: 65vh; 
+    margin: 0px;
+    box-sizing: border-box; 
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+.productos p{
+    flex: 1; 
+    background-color: #f9f9f8;
+    border-radius: 5px;
+    overflow: auto; 
+    color: rgb(9, 106, 6);
+    box-shadow: #000;
+    margin-top: 0px;
+    margin-left: 2px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 66%;
+    font-size: 25px;
+}
+
+.botones{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    background-color: #0000001e;
+    color: aliceblue;
+    width: 45px;
+    height: 45px;
+}
+
+.botones .btnAdd{
+    background-color: #adff6146;
+    color: aliceblue;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    
+}
+
+.botones .btnEdit{
+    background-color: #00ffff26;
+    color: aliceblue;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.botones .btnDelete{
+    background-color: #7518185c;
+    color: aliceblue;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.botones .btnAdd:hover{
+    background-color: #adff61;
+}
+.botones .btnEdit:hover{
+    background-color: #00aaff;
+}
+.botones .btnDelete:hover{
+    background-color: #ff0000;
+}
+
+/*Buscador*/
+
+.buscadorcss{
+    display: flex;
+    
+}
+
+.buscadorcss input{
+    flex: 1;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+    width: 73.5vw;
+    height: 32px;
+    font-size: 20px;
+}
+
+.buscadorcss input:focus{
+    border-color: #88ff00;
+    box-shadow: 0 0 11px rgba(72, 147, 2, 0.737);
+}

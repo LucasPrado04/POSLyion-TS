@@ -1,10 +1,11 @@
 .navbar {
   display: flex;
   align-items: center;
-  background-color: #f1b102;
+  background-color: #000000;
   padding: 1rem 1rem;
-  border-bottom: 3px solid #DC143C;
-  color: white;
+  padding-left: 50px;
+  border-bottom: 3px solid #e2ff04;
+  color: rgb(156, 247, 0);
   font-family: sans-serif;
 }
 
@@ -41,6 +42,8 @@
     align-items: center;
     justify-content: center;
     transition: transform 0.2s ease;
+    color: rgb(187, 255, 0);
+    text-shadow: #e2ff04 0px 0px 10px;
 }
 
 .logoButton:hover {
@@ -79,31 +82,71 @@ height: 110px; /* Ajustá el tamaño según necesites */
 }
 
 .dropbtn:hover{
-  color: #DC143C;
+  color: #6edc14bd;
   opacity: 0.8;
   transition: color 0.5s ease, background-color 0.6s ease;
 }
 
-/* El menú que flota "superficialmente" */
 .dropdownMenu {
-  position: absolute; /* Esto hace que flote y no afecte al navbar */
-  top: 100%;          /* Se coloca justo debajo del botón */
-  right: 0;           /* Se alinea al borde derecho del botón */
-  background-color: #1a1a1a; /* El negro de tu paleta */
-  border: 1px solid #DC143C; /* El carmesí de tu logo */
+  position: absolute;
+  top: 100%;          
+  right: 0;          
+  background-color: #bbea01dd; 
   min-width: 180px;
-  border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.6); /* Sombra para dar efecto de altura */
-  padding: 10px 0;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+  padding: 0;
   margin: 0;
   list-style: none;
-  z-index: 9999;      /* Un número alto para que pase por encima de todo */
+  z-index: 9999; 
+  border: #000000 solid 1px;
+  justify-content: center;
+  border-radius: 4px;
 }
 
 .dropdownMenu li a {
   display: block;
   padding: 12px 20px;
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
 }
 
+.dropdownMenu li a:hover {
+  background-color: #6edc14eb;
+  color: #000000;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.divider{
+  color: #000000;
+}
+
+
+@keyframes respirarSombra {
+  0% {
+    /* Estado inicial: Sombra presente pero sutil */
+    text-shadow: 2px 2px 8px rgba(166, 211, 5, 0.93);
+  }
+  50% {
+    /* Estado máximo: La sombra se expande y se oscurece más */
+    /* El 15px hace que el resplandor crezca y el 0.8 le da mucha fuerza */
+    text-shadow: 2px 2px 18px rgba(166, 211, 5, 0.93);
+  }
+  100% {
+    /* Vuelve al estado sutil sin desaparecer */
+    text-shadow: 2px 2px 8px rgba(166, 211, 5, 0.93);
+  }
+}
+
+.logoButton h1 {
+  margin: 0;
+  padding-left: 10px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: #90f100; /* O el color que tenga tu fuente */
+  
+  /* Aplicamos la animación */
+  /* 3 segundos hace que el ciclo sea relajado y profesional */
+  animation: respirarSombra 3s ease-in-out infinite;
+  
+  /* Esto evita saltitos raros en la renderización de la fuente */
+  transition: text-shadow 0.3s ease;
+}

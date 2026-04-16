@@ -9,7 +9,7 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Esto es vital */
+    overflow: hidden;
     background-color: #000;  
     box-sizing: border-box;      
 }
@@ -24,10 +24,71 @@
     flex: 1;
 }
 
-.appContent {
-    flex: 1; /* Esto empuja al footer */
+.panelProductos {
     display: flex;
-    flex-direction: row; /* Productos a la izquierda, Lateral a la derecha */
+    flex-direction: column;
+    gap: 2px;
+    padding: 0px;
+}
+
+.itemProductoBtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #b5dea0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: left; 
+}
+
+.itemProductoBtn:hover {
+    background-color: #45cb6db1;
+    border-color: #029c57;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.itemProductoBtn:active {
+    transform: translateY(0);
+    background-color: #99fc04;
+}
+
+.infoProducto {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nameProd {
+  font-weight: bold;
+  color: #000000;
+  font-size: 20px;
+}
+
+.precioProd {
+    color: #074304;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.plusIcon {
+    font-size: 24px;
+    color: #037d46;
+    font-weight: bold;
+}
+
+.plusIcon:hover {
+    color: #033b22;
+}
+
+.appContent {
+    flex: 1; 
+    display: flex;
+    flex-direction: row;
     overflow: hidden;
 }
 
@@ -65,7 +126,7 @@
     padding-left: 10px;
 }
 
-/* Columna Derecha (Panel Lateral) */
+/* Panel Lateral */
 .txtPanelLateral {
     display: flex;
     flex-direction: column;
@@ -82,7 +143,7 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* Los Paneles Blancos */
+/* Paneles Blancos */
 .panelProductos{
     flex: 1; 
     background-color: #fff;
@@ -102,10 +163,10 @@
 }
 
 .panelFooter {
-    background-color: #F1A10A;
+    background-color: #89dc2a;
     height: 100px; 
-    flex-shrink: 1; /* Prohibido achicarse */
-    z-index: 10;    /* Lo pone por encima de cualquier otro div */
+    flex-shrink: 1; 
+    z-index: 10;    
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -116,6 +177,8 @@
     padding: 0px 45px 0 0;
     margin: 0;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+
 }
 
 .contenedorColumnas {
@@ -125,16 +188,6 @@
     padding: 5px;
     overflow: hidden;
 }
-
-
-
-
-
-
-
-
-
-
 
 @media (max-width: 800px) {
     .seccionPrincipal {

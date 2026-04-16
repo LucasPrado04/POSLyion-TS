@@ -9,11 +9,17 @@ import AsideBar from './components/Layout/asidebar';
 // Páginas
 import Products from './components/Pages/products';
 import Cuerpo from './components/Pages/body';
+import Proveedor from './components/Pages/proveedor';
 
 // Estilos
 import Styles from './components/Estilos/Body.module.css';
 import './components/Estilos/Navegacion.module.css';
+import './components/Estilos/Products.module.css';
+import './components/Estilos/Proveedor.module.css';
+import './components/Estilos/add.module.css';
 
+// Emergentes
+import Agregar from './components/Pages/emergentes/addprods';
 
 const App = () => (
   <Router>
@@ -30,6 +36,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Cuerpo />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/proveedor" element={<Proveedor />} />
+            <Route path="/agregar" element={<Agregar />} />
           </Routes>
         </main>
       </div>

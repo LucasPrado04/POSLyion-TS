@@ -1,19 +1,13 @@
-.appContent {
-    display: flex;
-    /* Restamos la altura estimada de tu Navbar (ej: 60px) */
-    height: calc(100vh - 60px); 
-    width: 100%;
-    overflow: hidden;
-}
 
 .seccionPrincipal {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Esto centra a todos los hijos (título, buscador y panel) */
-    height: 100vh;
+    align-items: center;
+    min-height: 0vh; 
+    height: auto; 
     width: 100%;
-    box-sizing: border-box;
-    background-color: #000; /* Para que el fondo sea negro como en tu captura */
+    background-color: #000;
+    overflow: hidden; 
 }
 
 .gestionStock{
@@ -26,38 +20,55 @@
 }
 
 .txth2 {
-    width: 100%;            /* Ocupa todo el ancho disponible */
-    display: flex;          /* Usamos flex para controlar la alineación interna */
-    justify-content: center; /* Centra el texto "PRODUCTOS" horizontalmente */
-    align-items: center;    /* Centra verticalmente */
-    background-color: #2b1d0e; /* El color marrón oscuro que se ve en tu captura */
-    padding: 15px 0;        /* Le da altura al bloque del título */
-    margin-bottom: 10px;    /* Espacio con lo que viene abajo */
+    width: 100%;          
+    display: flex;         
+    justify-content: center; 
+    align-items: center;    
+    background-color: #7be93b65; 
+    padding: 15px 0;     
+    margin-bottom: 10px;   
 }
 
 .txth2 h2 {
-    margin: 0;              /* Quitamos márgenes por defecto del h2 */
-    color: #f39c12;         /* El color naranja/dorado de tu fuente */
-    font-family: 'Bebas Neue', sans-serif; /* Si ya aplicaste la fuente que querías */
-    letter-spacing: 2px;    /* Un toque de espacio entre letras queda más pro */
+    margin: 0;             
+    color: #cdf9ad;         
+    font-family: 'Bebas Neue', sans-serif; 
+    letter-spacing: 2px;  
+}
+.listaInterna {
+    width: 100%;
+    overflow: visible;
 }
 
 .productos {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     background-color: #f9f9f8;
     width: 80vw; 
-    height: 65vh; 
-    
-    /* 2. Margen parejo en todos los lados */
-    margin: 5px; 
-    
-    /* 3. Evita que el borde o padding agranden el cuadro */
+    height: 60vh; 
+    margin: 0px;
     box-sizing: border-box; 
-    
     border-radius: 4px;
     border: 1px solid #ddd;
-    overflow-y: auto;
+    overflow-y: auto; 
+    overflow-x: hidden; 
+}
+
+.productos::-webkit-scrollbar {
+    width: 8px;
+}
+
+.productos::-webkit-scrollbar-track {
+    background: #a2d3a8;
+}
+
+.productos::-webkit-scrollbar-thumb {
+    background: #106b06;
+    border-radius: 4px;
+}
+
+.productos::-webkit-scrollbar-thumb:hover {
+    background: #00470b;
 }
 
 .productos p{
@@ -65,16 +76,17 @@
     background-color: #f9f9f8;
     border-radius: 5px;
     overflow: auto; 
-    color: rgb(207, 28, 84);
+    color: rgb(9, 106, 6);
     box-shadow: #000;
+    margin-top: 0px;
+    margin-left: 2px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 66%;
+    font-size: 25px;
 }
 
-
-/*Botones ABM*/
 .botones{
     display: flex;
     gap: 10px;
@@ -142,6 +154,103 @@
 }
 
 .buscadorcss input:focus{
-    border-color: #ff0033;
-    box-shadow: 0 0 11px rgba(255, 0, 162, 0.559);
+    border-color: #88ff00;
+    box-shadow: 0 0 11px rgba(72, 147, 2, 0.737);
+}
+
+.filaIntercalada {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Intercalado de colores */
+.filaIntercalada:nth-child(odd) { background-color: #b4ffb1; }
+.filaIntercalada:nth-child(even) { background-color: #c7fa619f; }
+
+/* Definición de Columnas */
+
+.colNombre {
+    flex: 3;      
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.colStock {
+    flex: 1;           
+    text-align: center;
+    font-size: 19px;
+    color: #000000;
+}
+
+.colPrecio {
+    flex: 1;        
+    text-align: center;
+    font-size: 19px;
+    font-weight: 600;
+    color: #000;
+}
+
+.colAcciones {
+    flex: 1;        
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Estilos de botones */
+.colAcciones button {
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+}
+.colAcciones .btnEdit { background-color: #04f1f15b; color: #004ecc; border:#0400ff 1px solid; }
+
+.colAcciones .btnDelete { background-color: #7518185c; color: #a52a2a; border:#ff0000 1px solid; }
+
+.filaIntercalada:hover {
+    background-color: #53a205;
+}
+
+.datosProd {
+    display: flex;
+    flex-direction: column;
+}
+
+.botonesAccion {
+    display: flex;
+    gap: 10px;
+}
+
+.botonesAccion button {
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.btnEdit { background-color: #00ffff26; color: #0088cc; }
+.btnDelete { background-color: #7518185c; color: #a52a2a; }
+
+.btnEdit:hover { background-color: #004cff; color: white; }
+.btnDelete:hover { background-color: #ff0000; color: white; }
+
+.sinResultados {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #999;
 }

@@ -1,10 +1,11 @@
 /* SIDEBAR: No se toca */
 .sidebar {
     width: 150px;
-    background-color: #1a1a1a;
+    background-color: #000000;
     height: 100%; /* O el alto que herede del appContent */
     display: flex;
     flex-direction: column;
+    border-right: 1px solid rgb(15, 230, 0);
 }
 
 .linkside{
@@ -17,25 +18,59 @@
 }
 
 .linkside a{
-    color: #fff;
     text-decoration: none;
-    font-family: sans-serif;
+    font-family: comic-sans-ms, sans-serif;
+    font-size: 22px;
     display: flex;
     justify-content: center;
     padding: 20px;
-    transition: background 0.3s;
-}
-
-.linkside a:hover {
-    background-color: rgba(220, 20, 60, 0.1); /* Efecto al pasar el mouse */
-    color: #F1A10A;
+    color: #dfff6b;
+    text-shadow: 2px 2px 4px rgba(98, 216, 2, 0.5);
 }
 
 .btn1{
-    background-color: crimson;
+    background-color: #000000;
+    border-bottom: 1px solid rgb(15, 230, 0);
 }
 
-.btn3{
+.btn1 :hover{
+    background-color: rgb(139, 246, 0);
+    transition: background 0.5s;
+    color: #000000;
+}
+
+.btn1 a{
+    color: #dfff6b;
+}
+
+.btn2{
+    background-color: rgb(0, 0, 0);
+    color: #dfff6b;
+    border-bottom: 1px solid rgb(15, 230, 0);
+    
+}
+
+.btn2 :hover{
+    background-color: rgb(139, 246, 0);
+    transition: background 0.5s;
+    color: #000000;
+}
+
+.btn3 {
     margin-top: auto;
     margin-bottom: 3px;
+    border: 1px solid rgb(0, 0, 0);
 }
+
+.btn3 a{
+    color: rgb(160, 233, 2);
+}
+
+.settingsIcon {
+  transition: transform 0.5s ease-in-out;
+}
+
+.configLink:hover .settingsIcon {
+  transform: rotate(160deg);
+}
+

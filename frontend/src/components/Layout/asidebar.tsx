@@ -9,27 +9,23 @@ const AsideBar: React.FC = () => {
     console.log("Navegando al inicio...");
   };
 
-  // 1. EL SIDEBAR (Intocable)
+  // SIDEBAR
   return (
     <aside className={Styles.sidebar}>
       <ul className={Styles.linkside}>
         <li className={Styles.btn1}><Link to="/">Inicio</Link></li>
         <li className={Styles.btn2}><Link to="/products">Productos</Link></li>
-        <li className={Styles.btn1}><a href="#">Proveedores</a></li>
+        <li className={Styles.btn1}><Link to="/proveedor">Proveedores</Link></li>
         <li className={Styles.btn2}><a href="#">Historial</a></li>
         <li className={Styles.btn1}><a href="#">Compras</a></li>
         <li className={Styles.btn2}><a href="#">Estadisticas</a></li>
+        <div>
         <li className={Styles.btn3}>
           <Link to="/config" className={Styles.configLink}>
-            {/* Usamos el componente del icono.
-               - size={20}: Define el tamaño (alto/ancho) en píxeles.
-               - className: Para ajustar márgenes y colores en el CSS.
-            */}
             <Settings size={30} className={Styles.settingsIcon} />
-            {/* También puedes mantener el texto si quieres (opcional) */}
           </Link>
         </li>
-        {/* ... tus otros botones ... */}
+        </div>
       </ul>
     </aside>
   );

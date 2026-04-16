@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; // Importamos useState
 import styles from '../Estilos/Navbar.module.css';
-import logo from '../img/logo.jpeg';
+import logo from '../img/logo.jpg';
 
 const Navbar: React.FC = () => {
   // Estado para controlar si el menú está abierto
@@ -32,7 +32,6 @@ const Navbar: React.FC = () => {
             <ul className={styles.dropdownMenu}>
               <li><a href="#">Perfil</a></li>
               <li><a href="#">Ajustes</a></li>
-              <li><hr className={styles.divider} /></li>
               <li><a href="#" className={styles.logout}>Salir</a></li>
             </ul>
           )}
