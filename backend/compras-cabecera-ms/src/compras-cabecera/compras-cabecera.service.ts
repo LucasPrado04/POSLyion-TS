@@ -1,4 +1,4 @@
-import { HttpStatus, Inject, Injectable, Logger, PreconditionFailedException } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
 import { PrismaService } from 'src/prisma.service';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
