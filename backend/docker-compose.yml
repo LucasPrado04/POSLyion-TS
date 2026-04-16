@@ -1,0 +1,56 @@
+version: '3'
+services:
+  nats-server:
+    image: nats:latest
+    ports:
+      - "8222:8222"
+  client-gateway:
+    build: ./client-gateway
+    ports:
+      - ${CLIENT_GATEWAY_PORT}:3000
+    volumes:
+      - ./client-gateway/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3000
+      - NATS_SERVERS=nats://nats-server:4222
+  usuarios-ms:
+    build: ./usuarios-ms
+    volumes:
+      - ./usuarios-ms/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3001
+      - DATABASE_URL=file:./dev.db
+      - NATS_SERVERS=nats://nats-server:4222
+  productos-ms:
+    build: ./productos-ms
+    volumes:
+      - ./productos-ms/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3002
+      - DATABASE_URL=file:./dev.db
+      - NATS_SERVERS=nats://nats-server:4222
+  compras-ms:
+    depends_on:
+      - compras-db
+    build: ./compras-cabecera-ms
+    volumes:
+      - ./compras-cabecera-ms/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3003
+      - DATABASE_URL=postgresql://postgres:12346@compras-db:5432/comprasdb?schema=public
+      - NATS_SERVERS=nats://nats-server:4222
+  compras-db:
+    image: postgres:16.2
+    restart: always
+    volumes:
+      - ./compras-cabecera-ms/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12346
+      - POSTGRES_DB=comprasdb
