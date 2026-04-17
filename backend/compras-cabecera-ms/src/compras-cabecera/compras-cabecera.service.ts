@@ -176,7 +176,7 @@ export class ComprasCabeceraService {
         'create.payment.session',
         {
           orderId: compra.id,
-          currency: 'ARS',
+          currency: 'usd',
           items: compra.ArticuloCompra.map((articulo) => ({
             name: articulo.nombre,
             price: articulo.precio,
