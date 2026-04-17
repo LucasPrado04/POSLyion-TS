@@ -15,6 +15,7 @@ datasource db {
 
 enum EstadoCompra {
   PENDIENTE
+  PAGADO
   COMPLETADA
   CANCELADA
 }
@@ -23,12 +24,14 @@ model CompraCabecera {
   id             String           @id @default(uuid())
   montoTotal     Float
   totalProductos Int
-  estado         EstadoCompra?     @default(PENDIENTE)
+  estado         EstadoCompra?    @default(PENDIENTE)
   pagado         Boolean          @default(false)
   pagadoEl       DateTime?
+  stripeChargeId String?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   ArticuloCompra ArticuloCompra[]
+  ReciboPago     ReciboPago?
 }
 
 model ArticuloCompra {
@@ -38,4 +41,13 @@ model ArticuloCompra {
   precio           Float
   compraCabecera   CompraCabecera? @relation(fields: [compraCabeceraId], references: [id])
   compraCabeceraId String?
+}
+
+model ReciboPago {
+  id               String         @id @default(uuid())
+  compraCabecera   CompraCabecera @relation(fields: [compraCabeceraId], references: [id])
+  compraCabeceraId String         @unique
+  urlRecibo        String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }

@@ -1,7 +1,7 @@
 import { Controller, ParseUUIDPipe } from '@nestjs/common';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { ComprasCabeceraService } from './compras-cabecera.service';
-import { CreateComprasCabeceraDto, ComprasPaginacionDto, CambiarEstadoCompraDto } from './dto';
+import { CreateComprasCabeceraDto, ComprasPaginacionDto, CambiarEstadoCompraDto, PaidOrderDto } from './dto';
 
 @Controller()
 export class ComprasCabeceraController {
@@ -35,20 +35,7 @@ export class ComprasCabeceraController {
   }
 
   @EventPattern('payment.succeeded')
-  paidOrder(@Payload() paidOderDto: any) {
-    console.log({ paidOderDto });
-    return;
-  }
-
-  @EventPattern('payment.cancelled')
-  cancelledOrder(@Payload() paidOderDto: any) {
-    console.log({ paidOderDto });
-    return;
-  }
-
-  @EventPattern('payment.failed')
-  failedOrder(@Payload() paidOderDto: any) {
-    console.log({ paidOderDto });
-    return;
+  paidOrder(@Payload() paidOderDto: PaidOrderDto) {
+    return this.comprasCabeceraService.paidOrder(paidOderDto);
   }
 }

@@ -22,7 +22,7 @@ export class PaymentsService {
         const { currency, items, orderId } = paymentSessionDto
 
         const session = await this.stripeClient.checkout.sessions.create({
-            
+
             payment_intent_data: {
                 // Poner ID de mi orden de compra
                 metadata: {
@@ -71,46 +71,23 @@ export class PaymentsService {
             return;
         };
 
-
         switch (event.type) {
             case 'charge.succeeded':
                 const chargeSucceeded = event.data.object;
+                const payload = {
+                    stripePaymentId: chargeSucceeded.id,
+                    orderId: chargeSucceeded.metadata.orderId,
+                    receiptUrl: chargeSucceeded.receipt_url,
+                }
                 this.client.emit(
                     'payment.succeeded',
-                    {
-                        stripePaymentId: chargeSucceeded.id,
-                        orderId: chargeSucceeded.metadata.orderId,
-                        receiptUrl: chargeSucceeded.receipt_url,
-                    }
+                    payload
                 )
-                break;
-            case 'charge.cancelled':
-                const chargeCancelled = event.data.object;
-                this.client.emit(
-                    'payment.cancelled',
-                    {
-                        stripePaymentId: chargeCancelled.id,
-                        orderId: chargeCancelled.metadata.orderId,
-                        receiptUrl: chargeCancelled.receipt_url,
-                    }
-                )
-                break;
-            case 'charge.failed':
-                const chargeFailed = event.data.object;
-                this.client.emit(
-                    'payment.failed',
-                    {
-                        stripePaymentId: chargeFailed.id,
-                        orderId: chargeFailed.metadata.orderId,
-                        receiptUrl: chargeFailed.receipt_url,
-                    }
-                );
                 break;
             default:
                 console.log(`Event ${event.type} not handled`);
                 break;
         }
-
         return res.status(200).json({ signature });
     }
 
