@@ -54,3 +54,18 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12346
       - POSTGRES_DB=comprasdb
+  pagos-ms:
+    container_name: pagos-ms
+    build: ./pagos-ms
+    volumes:
+      - ./pagos-ms/src:/usr/src/app/src
+    ports:
+      - ${PAGOS_MS_PORT}:${PAGOS_MS_PORT}
+    command: npm run start:dev
+    environment:
+      - PORT=${PAGOS_MS_PORT}
+      - STRIPE_TESTING_SECRET_KEY=${STRIPE_TESTING_SECRET_KEY}
+      - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
+      - STRIPE_CANCEL_URL=${STRIPE_CANCEL_URL}
+      - STRIPE_ENDPOINT_SECRET=${STRIPE_ENDPOINT_SECRET}
+      - NATS_SERVERS=nats://nats-server:4222
