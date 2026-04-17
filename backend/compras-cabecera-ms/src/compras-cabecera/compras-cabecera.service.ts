@@ -5,6 +5,7 @@ import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { CambiarEstadoCompraDto, ComprasPaginacionDto } from './dto';
 import { NATS_SERVICE } from 'src/config';
 import { firstValueFrom } from 'rxjs';
+import { CompraConProductos } from 'src/interfaces';
 
 @Injectable()
 export class ComprasCabeceraService {
@@ -77,13 +78,13 @@ export class ComprasCabeceraService {
           ).nombre,
         })),
       }
+
     } catch (error) {
       throw new RpcException({
         message: 'Algunos productos no existen en la base de datos',
         status: HttpStatus.BAD_REQUEST,
       });
     }
-
   }
 
   async findAll(comprasPaginacionDto: ComprasPaginacionDto) {
@@ -166,5 +167,29 @@ export class ComprasCabeceraService {
       where: { id },
       data: { estado },
     });
+  }
+
+  async crearSesionDePago(compra: CompraConProductos) {
+
+    try {
+      const sesionDePago = await firstValueFrom(this.client.send(
+        'create.payment.session',
+        {
+          orderId: compra.id,
+          currency: 'ARS',
+          items: compra.ArticuloCompra.map((articulo) => ({
+            name: articulo.nombre,
+            price: articulo.precio,
+            quantity: articulo.cantidad,
+          })),
+        }
+      ));
+      return sesionDePago;
+    } catch (error) {
+      throw new RpcException({
+        message: `${error.message}`,
+        status: HttpStatus.BAD_REQUEST,
+      });
+    }
   }
 }

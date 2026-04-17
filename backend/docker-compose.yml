@@ -56,7 +56,6 @@ services:
       - POSTGRES_DB=comprasdb
   pagos-ms:
     container_name: pagos-ms
-    restart: always
     build: ./pagos-ms
     volumes:
       - ./pagos-ms/src:/usr/src/app/src

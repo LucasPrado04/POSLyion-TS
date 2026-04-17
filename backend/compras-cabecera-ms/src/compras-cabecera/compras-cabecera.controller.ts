@@ -8,8 +8,14 @@ export class ComprasCabeceraController {
   constructor(private readonly comprasCabeceraService: ComprasCabeceraService) {}
 
   @MessagePattern({cmd: 'crear_compra_cabecera'})
-  create(@Payload() createComprasCabeceraDto: CreateComprasCabeceraDto) {
-    return this.comprasCabeceraService.create(createComprasCabeceraDto);
+  async create(@Payload() createComprasCabeceraDto: CreateComprasCabeceraDto) {
+    const compra = await this.comprasCabeceraService.create(createComprasCabeceraDto);
+    const pago = await this.comprasCabeceraService.crearSesionDePago(compra);
+
+    return {
+      compra,
+      pago,
+    }
   }
 
   @MessagePattern({cmd: 'buscar_todas_compras_cabecera'})
