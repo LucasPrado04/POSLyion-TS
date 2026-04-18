@@ -2,9 +2,12 @@ import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateComprasCabeceraDto } from './dto/create-compras-cabecera.dto';
 import { PrismaService } from 'src/prisma.service';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
-import { CambiarEstadoCompraDto, ComprasPaginacionDto } from './dto';
+import { CambiarEstadoCompraDto, ComprasPaginacionDto, PaidOrderDto } from './dto';
 import { NATS_SERVICE } from 'src/config';
 import { firstValueFrom } from 'rxjs';
+import { CompraConProductos } from 'src/interfaces';
+import { EstadoCompra } from 'generated/prisma/enums';
+import { ReciboPago } from '../../generated/prisma/browser';
 
 @Injectable()
 export class ComprasCabeceraService {
@@ -77,13 +80,13 @@ export class ComprasCabeceraService {
           ).nombre,
         })),
       }
+
     } catch (error) {
       throw new RpcException({
         message: 'Algunos productos no existen en la base de datos',
         status: HttpStatus.BAD_REQUEST,
       });
     }
-
   }
 
   async findAll(comprasPaginacionDto: ComprasPaginacionDto) {
@@ -166,5 +169,50 @@ export class ComprasCabeceraService {
       where: { id },
       data: { estado },
     });
+  }
+
+  async crearSesionDePago(compra: CompraConProductos) {
+
+    try {
+      const sesionDePago = await firstValueFrom(this.client.send(
+        'create.payment.session',
+        {
+          orderId: compra.id,
+          currency: 'usd',
+          items: compra.ArticuloCompra.map((articulo) => ({
+            name: articulo.nombre,
+            price: articulo.precio,
+            quantity: articulo.cantidad,
+          })),
+        }
+      ));
+      return sesionDePago;
+    } catch (error) {
+      throw new RpcException({
+        message: `${error.message}`,
+        status: HttpStatus.BAD_REQUEST,
+      });
+    }
+  }
+
+  async paidOrder(paidOrderDto: PaidOrderDto) {
+    this.logger.log('Order paid');
+    this.logger.log(paidOrderDto);
+    const compraActualizada = await this.prisma.compraCabecera.update({
+      where: { id: paidOrderDto.orderId },
+      data: {
+        estado: EstadoCompra.PAGADO,
+        pagadoEl: new Date(),
+        pagado: true,
+        stripeChargeId: paidOrderDto.stripePaymentId,
+        // Relación
+        ReciboPago: {
+          create: {
+            urlRecibo: paidOrderDto.receiptUrl
+          }
+        }
+      }
+    });
+    return compraActualizada;
   }
 }

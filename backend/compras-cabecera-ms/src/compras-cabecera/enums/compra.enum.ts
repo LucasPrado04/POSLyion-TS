@@ -4,4 +4,5 @@ export const ListaEstadosCompra = [
     EstadoCompra.PENDIENTE,
     EstadoCompra.COMPLETADA,
     EstadoCompra.CANCELADA,
+    EstadoCompra.PAGADO,
 ]
