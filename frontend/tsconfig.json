@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "commonjs",
     "allowJs": true,
-    "jsx": "react-jsx", /* <-- Cambia esto de "preserve" a "react-jsx" */
+    "jsx": "react-jsx",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,

@@ -11,15 +11,22 @@ rules.push({
 
 
 export const rendererConfig: Configuration = {
+  // CAMBIA ESTO: de 'electron-renderer' a 'web'
+  target: 'web', 
   module: {
     rules,
   },
   plugins,
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
+    fallback: {
+        "path": false,
+        "fs": false,
+        "events": false, 
+      },
   },
   node: {
-    __dirname: true,
-    __filename: true,
+    __dirname: false,
+    __filename: false,
   },
 };

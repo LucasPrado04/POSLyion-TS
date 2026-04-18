@@ -10,6 +10,8 @@ import AsideBar from './components/Layout/asidebar';
 import Products from './components/Pages/products';
 import Cuerpo from './components/Pages/body';
 import Proveedor from './components/Pages/proveedor';
+import Historial from './components/Pages/historial';
+import Compras from './components/Pages/compras'
 
 // Estilos
 import Styles from './components/Estilos/Body.module.css';
@@ -20,6 +22,7 @@ import './components/Estilos/add.module.css';
 
 // Emergentes
 import Agregar from './components/Pages/emergentes/addprods';
+import AgregarCompra from './components/Pages/emergentes/addbuys'
 
 const App = () => (
   <Router>
@@ -37,7 +40,10 @@ const App = () => (
             <Route path="/" element={<Cuerpo />} />
             <Route path="/products" element={<Products />} />
             <Route path="/proveedor" element={<Proveedor />} />
+            <Route path="/historial" element={<Historial />} />
+            <Route path="/compras" element={<Compras />}></Route>
             <Route path="/agregar" element={<Agregar />} />
+            <Route path="/agregarCompra" element={<AgregarCompra />}></Route>
           </Routes>
         </main>
       </div>
