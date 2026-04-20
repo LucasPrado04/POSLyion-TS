@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
-import { envs } from './config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { envs } from './config';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -11,15 +11,19 @@ async function bootstrap() {
       transport: Transport.NATS,
       options: {
         servers: envs.natsServers,
-      }
-    }
+      },
+    },
   );
-  const logger = new Logger('Main-AuthMS')
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
-  }))
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+  console.log('AuthMS- Testing log');
+
   await app.listen();
-  logger.log(`Microservicio de autenticación corriendo en el puerto ${envs.port}`)
 }
 bootstrap();

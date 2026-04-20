@@ -1,0 +1,57 @@
+version: '3'
+services:
+  nats-server:
+    image: nats:latest
+  client-gateway:
+    build:
+      context: ./client-gateway
+      dockerfile: dockerfile.prod
+    image: client-gateway-prod
+    ports:
+      - ${CLIENT_GATEWAY_PORT}:${CLIENT_GATEWAY_PORT}
+    environment:
+      - PORT=${CLIENT_GATEWAY_PORT}
+      - NATS_SERVERS=${NATS_SERVERS}
+  auth-ms:
+    build:
+      context: ./auth-ms
+      dockerfile: dockerfile.prod
+    image: auth-ms-prod
+    environment:
+      - PORT=3001
+      - DATABASE_URL=${AUTH_DATABASE_URL}
+      - NATS_SERVERS=${NATS_SERVERS}
+      - JWT_SECRET=${JWT_SECRET}
+  productos-ms:
+    build:
+      context: ./productos-ms
+      dockerfile: dockerfile.prod
+    image: products-ms-prod
+    environment:
+      - PORT=3000
+      - DATABASE_URL=file:./dev.db
+      - NATS_SERVERS=${NATS_SERVERS}
+  compras-ms:
+    build:
+      context: ./compras-cabecera-ms
+      dockerfile: dockerfile.prod
+      args:
+        - ORDERS_DATABASE_URL=${ORDERS_DATABASE_URL}
+    image: orders-ms-prod
+    environment:
+      - PORT=3000
+      - DATABASE_URL=${ORDERS_DATABASE_URL}
+      - NATS_SERVERS=${NATS_SERVERS}
+  pagos-ms:
+    build:
+      context: ./pagos-ms
+      dockerfile: dockerfile.prod
+    ports:
+      - ${PAGOS_MS_PORT}:${PAGOS_MS_PORT}
+    environment:
+      - PORT=${PAGOS_MS_PORT}
+      - STRIPE_TESTING_SECRET_KEY=${STRIPE_TESTING_SECRET_KEY}
+      - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
+      - STRIPE_CANCEL_URL=${STRIPE_CANCEL_URL}
+      - STRIPE_ENDPOINT_SECRET=${STRIPE_ENDPOINT_SECRET}
+      - NATS_SERVERS=${NATS_SERVERS}
