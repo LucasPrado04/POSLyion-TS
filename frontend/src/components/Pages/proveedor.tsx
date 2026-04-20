@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import Styles from '../Estilos/Proveedor.module.css';
-import BuscadorStyle from '../Estilos/Search.module.css';
 import Buscador from '../Common/search';
-import StylesBody from '../Estilos/Body.module.css';
 import ProvStyles from '../Estilos/Proveedor.module.css';
-import Styles2 from '../Estilos/Navegacion.module.css';
-import {Plus,Trash2, Pencil, FilePenLine} from 'lucide-react';
+import {Plus} from 'lucide-react';
 
 const Proveedor: React.FC = () => {
   const [filtro, setFiltro] = useState('');

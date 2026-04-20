@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import Buscador from '../Common/search';
 import Styles from '../Estilos/Body.module.css';
 import ProductStyles from '../Estilos/Products.module.css';
-import { Modal } from '../../Modal';
-import Agregar from './emergentes/addprods';
+import { Modal2 } from '../../ModalBuy';
+import AgregarCompra from './emergentes/addbuys';
 import {Plus,Trash2, Pencil, FilePenLine} from 'lucide-react';
 
-const Products: React.FC = () => {
+const Compras: React.FC = () => {
   const [filtro, setFiltro] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Datos de ejemplo
 const productosData = [
-    { id: 1, nombre: 'Manzana', stock: 50, precio: 150 },
-    { id: 2, nombre: 'Banana', stock: 30, precio: 100 },
-    { id: 3, nombre: 'Pera', stock: 20, precio: 120 },
-    { id: 4, nombre: 'Naranja', stock: 45, precio: 90 },
-    { id: 5, nombre: 'Limón', stock: 15, precio: 80 }, // Cambié el ID y el nombre
-    { id: 6, nombre: 'Uva', stock: 10, precio: 250 },
+    { id: 1, nombre: 'Manzana', stock: 50, precio: 150, proveedor: 'Sancor', categoria: 'Frutas' },
+    { id: 2, nombre: 'Banana', stock: 30, precio: 100, proveedor: 'Sancor', categoria: 'Frutas' },
+    { id: 3, nombre: 'Pera', stock: 20, precio: 120, proveedor: 'Sancor', categoria: 'Frutas' },
+    { id: 4, nombre: 'Naranja', stock: 45, precio: 90, proveedor: 'Sancor', categoria: 'Frutas' },
+    { id: 5, nombre: 'Limón', stock: 15, precio: 80, proveedor: 'Sancor', categoria: 'Frutas' },
+    { id: 6, nombre: 'Uva', stock: 10, precio: 250, proveedor: 'Sancor', categoria: 'Frutas' },
 ];
 
   const productosFiltrados = productosData.filter(p =>
@@ -32,7 +32,7 @@ const productosData = [
   return (
     <div className={ProductStyles.contenedor}>
       <div className={ProductStyles.txth2}>
-        <h2>PRODUCTOS</h2>
+        <h2>Compras</h2>
       </div>
 
       <div className={ProductStyles.seccionPrincipal}>
@@ -47,9 +47,9 @@ const productosData = [
           <div className={ProductStyles.botones}>
             <button className={ProductStyles.btnAdd} onClick={() => setIsModalOpen(true)}><Plus size={30} color='green'/></button>
             {isModalOpen && (
-              <Modal onClose={() => setIsModalOpen(false)}>
-                <Agregar onSave={() => setIsModalOpen(false)} />
-              </Modal>
+              <Modal2 onClose={() => setIsModalOpen(false)}>
+                <AgregarCompra onSave={() => setIsModalOpen(false)} />
+              </Modal2>
             )}
           </div>
         </div>
@@ -65,7 +65,9 @@ const productosData = [
                   <span className={ProductStyles.colNombre}>{prod.nombre}</span>
                   <span className={ProductStyles.colStock}>Stock: {prod.stock}</span>
                   <span className={ProductStyles.colPrecio}>${prod.precio}</span>
-                  
+                  <span className={ProductStyles.colNombre}>{prod.proveedor}</span>
+                  <span className={ProductStyles.colPrecio}>{prod.categoria}</span>
+
                   <div className={ProductStyles.colAcciones}>
                     <button className={ProductStyles.btnEdit} title="Editar">
                       <Pencil size={18} />
@@ -87,4 +89,4 @@ const productosData = [
   );
 };
 
-export default Products;
+export default Compras;

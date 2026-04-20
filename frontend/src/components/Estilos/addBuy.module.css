@@ -1,0 +1,21 @@
+.formContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.divContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.divContainer h2{
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.divContainer input{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}

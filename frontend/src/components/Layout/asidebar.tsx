@@ -16,8 +16,8 @@ const AsideBar: React.FC = () => {
         <li className={Styles.btn1}><Link to="/">Inicio</Link></li>
         <li className={Styles.btn2}><Link to="/products">Productos</Link></li>
         <li className={Styles.btn1}><Link to="/proveedor">Proveedores</Link></li>
-        <li className={Styles.btn2}><a href="#">Historial</a></li>
-        <li className={Styles.btn1}><a href="#">Compras</a></li>
+        <li className={Styles.btn2}><Link to="/historial">Historial</Link></li>
+        <li className={Styles.btn1}><Link to="/compras">Compras</Link></li>
         <li className={Styles.btn2}><a href="#">Estadisticas</a></li>
         <div>
         <li className={Styles.btn3}>
