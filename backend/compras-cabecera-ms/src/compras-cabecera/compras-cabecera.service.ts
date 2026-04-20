@@ -124,6 +124,13 @@ export class ComprasCabeceraService {
             idProducto: true,
             precio: true,
             cantidad: true,
+
+          }
+        },
+        ReciboPago: {
+          select: {
+            urlRecibo: true,
+            createdAt: true,
           }
         }
       }
